@@ -23,7 +23,7 @@ stages:
           - script: rm -rf .next
             displayName: "Remove cached builds"
 
-          - script: npm build
+          - script: npm run build
             displayName: "Build application"
 
           - task: PublishPipelineArtifact@1
