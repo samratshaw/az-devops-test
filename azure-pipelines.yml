@@ -14,14 +14,14 @@ stages:
         steps:
           - task: UseNode@1
             inputs:
-              version: "14.x"
+              version: "18.17"
             displayName: "Install Node.js"
 
           - script: npm install
             displayName: "Install dependencies"
 
           - script: rm -rf .next
-            displayName: Remove cached builds
+            displayName: "Remove cached builds"
 
           - script: npm build
             displayName: "Build application"
