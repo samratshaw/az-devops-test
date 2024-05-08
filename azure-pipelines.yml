@@ -42,18 +42,18 @@ stages:
               targetPath: $(Build.SourceBranchName).zip
               artifactName: $(Build.SourceBranchName).zip
 
-  - stage:
-    jobs:
-      - job: PublishArtifactJob
-        displayName: "Publish artifact to Blob"
-        steps:
-          - task: AzureFileCopy@4
-            inputs:
-              SourcePath: $(Build.SourceBranchName).zip
-              azureSubscription: "Free Trial"
-              Destination: "AzureBlob"
-              storage: "stgazdevopstest"
-              ContainerName: "fe-art-artifacts"
+  # - stage:
+  #   jobs:
+  #     - job: PublishArtifactJob
+  #       displayName: "Publish artifact to Blob"
+  #       steps:
+  #         - task: AzureFileCopy@4
+  #           inputs:
+  #             SourcePath: $(Build.SourceBranchName).zip
+  #             azureSubscription: "Free Trial"
+  #             Destination: "AzureBlob"
+  #             storage: "stgazdevopstest"
+  #             ContainerName: "fe-art-artifacts"
   # - stage: Deploy
   #   jobs:
   #     - job: DeployJob
