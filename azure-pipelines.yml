@@ -1,7 +1,7 @@
 trigger:
-  branches:
+  tags:
     include:
-      - main
+      - "*"
 
 pool:
   vmImage: "ubuntu-latest"
@@ -13,9 +13,9 @@ stages:
         displayName: "Build frontend web application"
         steps:
           - task: UseNode@1
+            displayName: "Install Node.js"
             inputs:
               version: "18.17"
-            displayName: "Install Node.js"
 
           - script: npm install
             displayName: "Install dependencies"
@@ -26,11 +26,34 @@ stages:
           - script: npm run build
             displayName: "Build application"
 
-          - task: PublishPipelineArtifact@1
+          - task: ArchiveFiles@2
+            displayName: "Create archive"
             inputs:
-              targetPath: "out"
-              artifactName: "fe-art"
+              rootFolderOrFile: $(Build.Repository.LocalPath)/out
+              includeRootFolder: false
+              archiveType: zip
+              archiveFile: $(Build.SourceBranchName).zip
+              replaceExistingArchive: false
+              verbose: true
 
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish artifact locally"
+            inputs:
+              targetPath: $(Build.SourceBranchName).zip
+              artifactName: $(Build.SourceBranchName).zip
+
+  - stage:
+    jobs:
+      - job: PublishArtifactJob
+        displayName: "Publish artifact to Blob"
+        steps:
+          - task: AzureFileCopy@4
+            inputs:
+              SourcePath: $(Build.SourceBranchName).zip
+              azureSubscription: "Free Trial"
+              Destination: "AzureBlob"
+              storage: "stgazdevopstest"
+              ContainerName: "fe-art-artifacts"
   # - stage: Deploy
   #   jobs:
   #     - job: DeployJob
