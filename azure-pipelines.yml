@@ -20,7 +20,7 @@ stages:
           - script: npm install
             displayName: "Install dependencies"
 
-          - script: rm -rf .next
+          - script: rm -rf out
             displayName: "Remove cached builds"
 
           - script: npm run build
@@ -28,7 +28,7 @@ stages:
 
           - task: PublishPipelineArtifact@1
             inputs:
-              targetPath: ".next"
+              targetPath: "out"
               artifactName: "fe-art"
 
   # - stage: Deploy
