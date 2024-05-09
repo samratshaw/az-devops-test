@@ -1,0 +1,15 @@
+parameters:
+- name: tagNumber
+  displayName: 'Tag Number'
+  type: string
+  default: '1.0.0'
+
+trigger:
+- none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - script: echo "Tag Number $(tagNumber)"
+    displayName: 'Print Tag Number'
