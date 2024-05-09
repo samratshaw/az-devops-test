@@ -1,0 +1,35 @@
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildJob
+        displayName: "Build frontend web application"
+        steps:
+          - task: UseNode@1
+            displayName: "Install Node.js"
+            inputs:
+              version: "18.17"
+
+          - script: npm install
+            displayName: "Install dependencies"
+
+          - script: rm -rf out
+            displayName: "Remove cached builds"
+
+          - script: npm run build
+            displayName: "Build application"
+
+          - task: ArchiveFiles@2
+            displayName: "Create archive"
+            inputs:
+              rootFolderOrFile: $(Build.Repository.LocalPath)/out
+              includeRootFolder: false
+              archiveType: zip
+              archiveFile: $(Build.SourceBranchName).zip
+              replaceExistingArchive: false
+              verbose: true
+
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish artifact locally"
+            inputs:
+              targetPath: $(Build.SourceBranchName).zip
+              artifactName: $(Build.SourceBranchName)
