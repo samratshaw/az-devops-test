@@ -3,6 +3,10 @@ parameters:
   displayName: 'Tag Number'
   type: string
   default: '1.0.0'
+- name: message
+  displayName: 'Message to be added when creating the tag'
+  type: string
+  default: 'Created release tag'
 
 trigger:
 - none
@@ -11,5 +15,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - script: echo Tag Number ${{ parameters.tagNumber }}
-    displayName: 'Print Tag Number'
+  - checkout: self
+    persistCredentials: true
+  - script: |
+      git tag -a ${{ parameters.tagNumber }} -m ${{ parameters.message }}
+      git push origin <tagname>
