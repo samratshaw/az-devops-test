@@ -19,4 +19,4 @@ steps:
     persistCredentials: true
   - script: |
       git tag -a ${{ parameters.tagNumber }} -m ${{ parameters.message }}
-      git push origin <tagname>
+      git push origin ${{ parameters.tagNumber }}
