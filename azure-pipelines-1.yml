@@ -11,5 +11,5 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - script: echo "Tag Number $(tagNumber)"
+  - script: echo Tag Number ${{ parameters.tagNumber }}
     displayName: 'Print Tag Number'
